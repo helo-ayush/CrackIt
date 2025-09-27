@@ -192,22 +192,22 @@ const HomePage = () => {
                 <div className="bg-white/80 backdrop-blur-lg shadow-2xl rounded-2xl p-4 transition-transform duration-300 ease-out" style={{ transform: `translateX(${xOffset * 25}px) translateY(${yOffset * 25}px)` }}>
                   <div className="w-8 h-1.5 bg-green-400 rounded-full"></div>
                   <div className="w-12 h-1.5 bg-green-300 rounded-full mt-2"></div>
-                  <div className='mt-2 font-bold text-gray-500 text-2xl'>Ambition 🚀</div>
+                  <div className='mt-2 font-bold text-gray-500 text-2xl hidden md:block'>Ambition 🚀</div>
                 </div>
                 <div className="col-span-2 bg-white/80 backdrop-blur-lg shadow-2xl rounded-2xl p-4 transition-transform duration-300 ease-out" style={{ transform: `translateX(${xOffset * -15}px) translateY(${yOffset * -15}px)` }}>
                   <div className="w-full h-1.5 bg-indigo-400 rounded-full"></div>
                   <div className="w-10/12 h-1.5 bg-indigo-300 rounded-full mt-2"></div>
-                  <div className='mt-2 font-bold text-gray-500 text-3xl'>Persevere 💎</div>
+                  <div className='mt-2 font-bold text-gray-500 text-3xl hidden md:block'>Persevere 💎</div>
                 </div>
                 <div className="col-span-2 bg-white/80 backdrop-blur-lg shadow-2xl rounded-2xl p-4 transition-transform duration-300 ease-out" style={{ transform: `translateX(${xOffset * 20}px) translateY(${yOffset * 20}px)` }}>
                   <div className="w-full h-1.5 bg-yellow-400 rounded-full"></div>
                   <div className="w-10/12 h-1.5 bg-yellow-300 rounded-full mt-2"></div>
-                  <div className='mt-2 font-bold text-gray-500 text-2xl'>Resilience 🌳</div>
+                  <div className='mt-2 font-bold text-gray-500 text-2xl hidden md:block'>Resilience 🌳</div>
                 </div>
                 <div className="bg-white/80 backdrop-blur-lg shadow-2xl rounded-2xl p-4 transition-transform duration-300 ease-out" style={{ transform: `translateX(${xOffset * -30}px) translateY(${yOffset * -30}px)` }}>
                   <div className="w-8 h-1.5 bg-pink-400 rounded-full"></div>
                   <div className="w-12 h-1.5 bg-pink-300 rounded-full mt-2"></div>
-                  <div className='mt-2 font-bold text-gray-500 text-3xl'>Thrive 🌱</div>
+                  <div className='mt-2 font-bold text-gray-500 text-3xl hidden md:block'>Thrive 🌱</div>
                 </div>
               </div>
             </div>
@@ -335,5 +335,6 @@ const HomePage = () => {
     </div>
   );
 };
+
 
 export default HomePage;
