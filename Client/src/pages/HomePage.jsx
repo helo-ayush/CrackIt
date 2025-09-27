@@ -83,7 +83,7 @@ const HomePage = () => {
   const [text, setText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const wordsToType = ["Innovation", "Collaboration", "Creation"];
-  
+
   // State for the mobile navigation menu (open/closed)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -120,7 +120,7 @@ const HomePage = () => {
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
-  
+
   // Effect to lock body scroll when the mobile menu is open
   useEffect(() => {
     if (isMenuOpen) {
@@ -141,7 +141,7 @@ const HomePage = () => {
   return (
     // Element: Page Container
     <div className="w-full min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 text-gray-800 overflow-x-clip">
-      
+
       {/* Element: Animated Background Blobs */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
         <div className="absolute top-[-10rem] -left-24 w-72 h-72 md:w-[32rem] md:h-[32rem] bg-purple-200 rounded-full mix-blend-multiply filter blur-2xl opacity-40 animate-[blob_10s_infinite]"></div>
@@ -155,7 +155,7 @@ const HomePage = () => {
           <Link to="/" className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
             CrackIt
           </Link>
-          
+
           {/* Menu: Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <Link to="#features" className="text-gray-600 hover:text-indigo-600 transition-colors">Features</Link>
@@ -177,13 +177,13 @@ const HomePage = () => {
       <div className={`fixed inset-0 z-40 md:hidden transition-opacity duration-300 ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
         {/* Overlay */}
         <div className="absolute inset-0 bg-black/20" onClick={() => setIsMenuOpen(false)}></div>
-        
+
         {/* Menu Panel */}
         <div className={`absolute top-0 left-0 w-full bg-white/80 backdrop-blur-lg shadow-xl transition-transform duration-300 ease-out ${isMenuOpen ? 'translate-y-0' : '-translate-y-full'}`}>
           <div className="container mx-auto px-6 pt-24 pb-8 flex flex-col space-y-4">
             <Link to="#features" className="text-gray-700 hover:text-indigo-600 text-lg py-2" onClick={() => setIsMenuOpen(false)}>Features</Link>
             <Link to="#how-it-works" className="text-gray-700 hover:text-indigo-600 text-lg py-2" onClick={() => setIsMenuOpen(false)}>How It Works</Link>
-            <hr className="border-gray-200"/>
+            <hr className="border-gray-200" />
             <Link to="/login" className="text-gray-700 hover:text-indigo-600 font-medium text-lg py-2" onClick={() => setIsMenuOpen(false)}>Login</Link>
             <Link to="/signup" className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold py-3 px-5 rounded-lg text-center mt-4" onClick={() => setIsMenuOpen(false)}>
               Sign Up
@@ -191,7 +191,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Element: Main Content */}
       <main className="pt-24 md:pt-32">
 
@@ -279,7 +279,7 @@ const HomePage = () => {
             </div>
           </div>
         </section>
-        
+
         {/* Section: How it Works */}
         <section id="how-it-works" className="py-20">
           <div className="container mx-auto px-6">
@@ -344,17 +344,19 @@ const HomePage = () => {
       {/* Element: Footer */}
       <footer className="bg-transparent mt-12">
         <div className="container mx-auto px-6 py-8">
-            <div className="flex flex-col md:flex-row justify-between items-center">
-                <p className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-                    CrackIt
-                </p>
-                <div className="flex space-x-6 mt-4 md:mt-0">
-                    <Link to="#" className="text-gray-500 hover:text-indigo-600">About</Link>
-                    <Link to="#" className="text-gray-500 hover:text-indigo-600">Careers</Link>
-                    <Link to="#" className="text-gray-500 hover:text-indigo-600">Contact</Link>
-                </div>
-                <p className="text-gray-500 mt-4 md:mt-0">&copy; {new Date().getFullYear()} Innovortex. All rights reserved.</p>
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <p className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+              CrackIt
+            </p>
+            <div className="flex space-x-6 mt-4 md:mt-0">
+              <div className="flex space-x-6 mt-4 md:mt-0">
+                <Link to="/about" className="text-gray-500 hover:text-indigo-600">About</Link>
+                <Link to="/careers" className="text-gray-500 hover:text-indigo-600">Careers</Link>
+                <Link to="/contact" className="text-gray-500 hover:text-indigo-600">Contact</Link>
+              </div>
             </div>
+            <p className="text-gray-500 mt-4 md:mt-0">&copy; {new Date().getFullYear()} Innovortex. All rights reserved.</p>
+          </div>
         </div>
       </footer>
     </div>
