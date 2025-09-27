@@ -87,7 +87,7 @@ const SignupPage = () => {
       <div className="relative w-full max-w-md">
 
         {/* Glass Effect */}
-        <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/30 p-6 space-y-5 max-h-[95vh] overflow-y-auto">
+        <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/30 p-6 space-y-5 max-h-[97vh] overflow-y-auto">
 
           {/* Header */}
           <div className="text-center space-y-2">
@@ -259,3 +259,4 @@ const SignupPage = () => {
 }
 
 export default SignupPage
+
