@@ -158,8 +158,8 @@ const HomePage = () => {
 
           {/* Menu: Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="#features" className="text-gray-600 hover:text-indigo-600 transition-colors">Features</Link>
-            <Link to="#how-it-works" className="text-gray-600 hover:text-indigo-600 transition-colors">How It Works</Link>
+            <Link to="/features" className="text-gray-600 hover:text-indigo-600 transition-colors">Features</Link>
+            <Link to="/how-it-works"className="text-gray-600 hover:text-indigo-600 transition-colors">How It Works</Link>
             <Link to="/login" className="text-gray-600 font-medium hover:text-indigo-600">Login</Link>
             <Link to="/signup" className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold py-2 px-5 rounded-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
               Sign Up
@@ -181,8 +181,8 @@ const HomePage = () => {
         {/* Menu Panel */}
         <div className={`absolute top-0 left-0 w-full bg-white/80 backdrop-blur-lg shadow-xl transition-transform duration-300 ease-out ${isMenuOpen ? 'translate-y-0' : '-translate-y-full'}`}>
           <div className="container mx-auto px-6 pt-24 pb-8 flex flex-col space-y-4">
-            <Link to="#features" className="text-gray-700 hover:text-indigo-600 text-lg py-2" onClick={() => setIsMenuOpen(false)}>Features</Link>
-            <Link to="#how-it-works" className="text-gray-700 hover:text-indigo-600 text-lg py-2" onClick={() => setIsMenuOpen(false)}>How It Works</Link>
+            <Link to="/features" className="text-gray-700 hover:text-indigo-600 text-lg py-2" onClick={() => setIsMenuOpen(false)}>Features</Link>
+            <Link to="/how-it-works"className="text-gray-700 hover:text-indigo-600 text-lg py-2" onClick={() => setIsMenuOpen(false)}>How It Works</Link>
             <hr className="border-gray-200" />
             <Link to="/login" className="text-gray-700 hover:text-indigo-600 font-medium text-lg py-2" onClick={() => setIsMenuOpen(false)}>Login</Link>
             <Link to="/signup" className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold py-3 px-5 rounded-lg text-center mt-4" onClick={() => setIsMenuOpen(false)}>
@@ -342,20 +342,29 @@ const HomePage = () => {
       </main>
 
       {/* Element: Footer */}
-      <footer className="bg-transparent mt-12">
+      <footer className="bg-white/50 backdrop-blur-lg border-t border-gray-200 mt-12">
         <div className="container mx-auto px-6 py-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-              CrackIt
-            </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <div className="flex space-x-6 mt-4 md:mt-0">
-                <Link to="/about" className="text-gray-500 hover:text-indigo-600">About</Link>
-                <Link to="/careers" className="text-gray-500 hover:text-indigo-600">Careers</Link>
-                <Link to="/contact" className="text-gray-500 hover:text-indigo-600">Contact</Link>
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-4 text-center">
+
+            {/* Column 1: Logo (Aligned Left on Desktop) */}
+            <div className="md:text-left">
+              <Link to="/" className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+                CrackIt
+              </Link>
             </div>
-            <p className="text-gray-500 mt-4 md:mt-0">&copy; {new Date().getFullYear()} Innovortex. All rights reserved.</p>
+
+            {/* Column 2: Navigation Links (Always Centered) */}
+            <div className="flex justify-center space-x-8">
+              <Link to="/about" className="text-gray-600 hover:text-indigo-600 transition-colors duration-300">About</Link>
+              <Link to="/careers" className="text-gray-600 hover:text-indigo-600 transition-colors duration-300">Careers</Link>
+              <Link to="/contact" className="text-gray-600 hover:text-indigo-600 transition-colors duration-300">Contact</Link>
+            </div>
+
+            {/* Column 3: Copyright (Aligned Right on Desktop) */}
+            <div className="md:text-right">
+              <p className="text-gray-500 text-sm">&copy; {new Date().getFullYear()} CrackIt. All rights reserved.</p>
+            </div>
+
           </div>
         </div>
       </footer>

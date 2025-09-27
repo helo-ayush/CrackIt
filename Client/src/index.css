@@ -34,3 +34,29 @@
 .animate-fade-in-up {
   animation: fadeInUp 1s ease-out forwards;
 }
+/* ===== Scrollbar CSS ===== */
+/* This works for WebKit-based browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 12px; /* Sets the width of the entire scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9; /* A light gray that matches your page backgrounds */
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to top, #6366f1, #8b5cf6); /* The main indigo/purple gradient */
+  border-radius: 8px;
+  border: 2px solid #f1f5f9; /* Creates a nice padding effect */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to top, #4f46e5, #7c3aed); /* A slightly darker gradient for hover */
+}
+
+/* This works for Firefox */
+html {
+  scrollbar-width: thin; /* Can be 'auto', 'thin', or 'none' */
+  scrollbar-color: #8b5cf6 #f1f5f9; /* thumb color track color */
+}

@@ -7,6 +7,8 @@ import HomePage from './pages/HomePage'
 import AboutPage from './pages/AboutPage' // Import AboutPage
 import CareersPage from './pages/CareersPage' // Import CareersPage
 import ContactPage from './pages/ContactPage' // Import ContactPage
+import FeaturesPage from './pages/FeaturesPage';  
+import HowItWorksPage from './pages/HowItWorksPage'; 
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
         <Route path="/about" element={<AboutPage />} />       
         <Route path="/careers" element={<CareersPage />} />  
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/features" element={<FeaturesPage />} />      
+        <Route path="/how-it-works" element={<HowItWorksPage />} />  
       </Routes>
     </Router>
   )
