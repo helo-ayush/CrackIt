@@ -9,7 +9,7 @@ import CareersPage from './pages/CareersPage' // Import CareersPage
 import ContactPage from './pages/ContactPage' // Import ContactPage
 import FeaturesPage from './pages/FeaturesPage';  
 import HowItWorksPage from './pages/HowItWorksPage'; 
-import ScrollToTop from "./ScrollToTop";
+import ScrollToTop from "./pages/ScrollToTop";
 
 function App() {
   return (
