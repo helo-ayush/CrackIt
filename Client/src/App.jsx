@@ -9,10 +9,12 @@ import CareersPage from './pages/CareersPage' // Import CareersPage
 import ContactPage from './pages/ContactPage' // Import ContactPage
 import FeaturesPage from './pages/FeaturesPage';  
 import HowItWorksPage from './pages/HowItWorksPage'; 
+import ScrollToTop from "./ScrollToTop";
 
 function App() {
   return (
     <Router>  {/* Router setup in App.jsx */}
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomePage />} /> 
         <Route path="/signup" element={<SignupPage />} />
