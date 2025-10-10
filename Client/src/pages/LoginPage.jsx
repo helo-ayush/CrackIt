@@ -1,6 +1,7 @@
 import { Eye, EyeOff, Mail, KeyRound } from 'lucide-react';
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext.jsx';  // fixed: correct context path
 
 // Reusable AnimatedSection for consistent entry animations
 const AnimatedSection = ({ children, direction = 'up', delay = 0, className = '' }) => {
@@ -50,6 +51,9 @@ const AnimatedSection = ({ children, direction = 'up', delay = 0, className = ''
 
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const { login, isAuthenticated } = useAuth();  // Get login from context
+  
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -59,7 +63,14 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ text: '', isError: false });
 
-  // Handle form input changes (LOGIC UNCHANGED)
+  // Redirect if already logged in
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    }
+  }, [isAuthenticated, navigate]);
+
+  // Handle form input changes
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -67,7 +78,7 @@ const LoginPage = () => {
     });
   };
 
-  // Handle form submission (LOGIC UNCHANGED)
+  // Handle form submission - NOW USES AuthContext
   const handleSubmit = async (e) => {
     if (e) e.preventDefault();
     setIsLoading(true);
@@ -80,17 +91,35 @@ const LoginPage = () => {
     }
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      console.log('Login attempt:', formData);
-      setMessage({ text: 'Login successful!', isError: false });
+      // Use the login function from AuthContext
+      await login(formData.email, formData.password);
+      
+      // Success! Context is now updated with user data
+      setMessage({ text: 'Login Successful! Redirecting...', isError: false });
+      
+      // Clear form
+      setFormData({
+        email: '',
+        password: ''
+      });
+
+      // Redirect to dashboard after a short delay
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 1000);
+
     } catch (err) {
-      setMessage({ text: 'Login failed. Please try again.', isError: true });
+      console.error('Login error:', err);
+      setMessage({ 
+        text: err.message || 'Login failed. Please check your credentials.', 
+        isError: true 
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Loading spinner component (LOGIC UNCHANGED)
+  // Loading spinner component
   const LoadingSpinner = () => (
     <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>

@@ -10,6 +10,7 @@ import ContactPage from './pages/ContactPage' // Import ContactPage
 import FeaturesPage from './pages/FeaturesPage';  
 import HowItWorksPage from './pages/HowItWorksPage'; 
 import ScrollToTop from "./pages/ScrollToTop";
+import ProtectedRoute from './components/ProtectedRoute'; // added: protect routes
 
 function App() {
   return (
@@ -19,7 +20,11 @@ function App() {
         <Route path="/" element={<HomePage />} /> 
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={
+          <ProtectedRoute> {/* added: wrap dashboard */}
+            <Dashboard />
+          </ProtectedRoute>
+        } />
         <Route path="/about" element={<AboutPage />} />       
         <Route path="/careers" element={<CareersPage />} />  
         <Route path="/contact" element={<ContactPage />} />
