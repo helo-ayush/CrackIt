@@ -1,6 +1,6 @@
-import { Eye, EyeOff, User, Mail, KeyRound } from 'lucide-react';
+import { Eye, EyeOff, User, Mail, KeyRound, X } from 'lucide-react';
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // Reusable AnimatedSection for consistent entry animations
 const AnimatedSection = ({ children, direction = 'up', delay = 0, className = '' }) => {
@@ -35,8 +35,8 @@ const AnimatedSection = ({ children, direction = 'up', delay = 0, className = ''
       case 'left':
         return `${base} ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-16'}`;
       case 'right':
-         return `${base} ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'}`;
-      default: // 'up'
+        return `${base} ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-16'}`;
+      default:
         return `${base} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'}`;
     }
   };
@@ -49,19 +49,19 @@ const AnimatedSection = ({ children, direction = 'up', delay = 0, className = ''
 };
 
 const SignupPage = () => {
+  const navigate = useNavigate(); // Fixed: Added useNavigate
   const [message, setMessage] = useState({ text: '', isError: false });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
-      username: '',
-      email: '',
-      password: '',
-      confirmPassword: ''
-    });
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
 
-   // Handle form input changes (LOGIC UNCHANGED)
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -69,7 +69,6 @@ const SignupPage = () => {
     });
   };
 
-  // Handle form submission (LOGIC UNCHANGED)
   const handleSubmit = async (e) => {
     if (e) e.preventDefault();
     setIsLoading(true);
@@ -91,17 +90,45 @@ const SignupPage = () => {
       return;
     }
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      console.log('Signup attempt:', formData);
-      setMessage({ text: 'Account created successfully!', isError: false });
+      const API_URL = import.meta.env.VITE_BACKEND_URL;
+      const response = await fetch(`${API_URL}/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          email: formData.email,
+          password: formData.password
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage({ text: 'Account created successfully! Redirecting to login...', isError: false });
+
+        setFormData({
+          username: '',
+          email: '',
+          password: '',
+          confirmPassword: ''
+        });
+
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
+      } else {
+        setMessage({ text: data.error || 'Signup failed. Please try again.', isError: true });
+      }
     } catch (err) {
-      setMessage({ text: 'Signup failed. Please try again.', isError: true });
+      console.error('Signup error:', err);
+      setMessage({ text: 'Network error. Please check your connection and try again.', isError: true });
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Loading spinner component (LOGIC UNCHANGED)
   const LoadingSpinner = () => (
     <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -111,21 +138,42 @@ const SignupPage = () => {
 
   return (
     <div className='min-h-screen w-full bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white flex items-center justify-center p-4 overflow-hidden relative'>
+      {/* Toast Message - Fixed position, doesn't affect layout */}
+      {message.text && (
+        <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-[90%] max-w-md animate-bounce">
+          <div className={`p-4 rounded-xl text-sm font-medium shadow-2xl border-2 backdrop-blur-sm ${
+            message.isError
+              ? 'bg-red-500/95 text-white border-red-400'
+              : 'bg-green-500/95 text-white border-green-400'
+          }`}>
+            <div className="flex items-center justify-between gap-3">
+              <span className="flex-1">{message.text}</span>
+              <button 
+                onClick={() => setMessage({ text: '', isError: false })}
+                className="text-white/80 hover:text-white transition flex-shrink-0"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Background Effects */}
       <div className="absolute inset-0 opacity-40">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
-        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
-        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse" style={{animationDelay: '4s'}}></div>
+        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
       </div>
 
       <div className="container mx-auto z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
           {/* Left Column: Welcome Text */}
           <AnimatedSection direction="left" className="hidden lg:block">
             <Link to="/" className="inline-block text-4xl font-bold mb-6">
-                <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
-                  CrackIt
-                </span>
+              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+                CrackIt
+              </span>
             </Link>
             <h1 className="text-5xl font-black leading-tight text-white mb-4">
               Join the Innovation Revolution.
@@ -137,23 +185,13 @@ const SignupPage = () => {
 
           {/* Right Column: Signup Form */}
           <AnimatedSection direction="right">
-            <div className="bg-black/20 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl p-8 sm:p-12 space-y-8">
+            <div className="bg-black/20 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl p-8 sm:p-10 space-y-6">
               <div className="text-center">
                 <h1 className="text-3xl font-bold text-white">Create Your Account</h1>
                 <p className="text-gray-300 mt-2">Let's get you started on your journey.</p>
               </div>
 
-              {message.text && (
-                <div className={`p-3 rounded-xl text-sm font-medium text-center ${
-                  message.isError 
-                    ? 'bg-red-500/20 text-red-300 border border-red-500/30' 
-                    : 'bg-green-500/20 text-green-300 border border-green-500/30'
-                }`}>
-                  {message.text}
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
                   <label htmlFor="username" className="text-sm font-medium text-gray-300">Username</label>
                   <div className="relative">
@@ -176,7 +214,7 @@ const SignupPage = () => {
                     <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                     <input id="password" name="password" type={showPassword ? "text" : "password"} value={formData.password} onChange={handleChange} className="w-full pl-12 pr-12 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition" placeholder="Create a strong password" required />
                     <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-0 px-4 flex items-center text-gray-400 hover:text-white transition">
-                      {showPassword ? <Eye className='w-5'/> : <EyeOff className='w-5'/>}
+                      {showPassword ? <Eye className='w-5' /> : <EyeOff className='w-5' />}
                     </button>
                   </div>
                 </div>
@@ -187,18 +225,18 @@ const SignupPage = () => {
                     <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                     <input id="confirmPassword" name="confirmPassword" type={showConfirmPassword ? "text" : "password"} value={formData.confirmPassword} onChange={handleChange} className="w-full pl-12 pr-12 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition" placeholder="Confirm your password" required />
                     <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute inset-y-0 right-0 px-4 flex items-center text-gray-400 hover:text-white transition">
-                      {showConfirmPassword ? <Eye className='w-5'/> : <EyeOff className='w-5'/>}
+                      {showConfirmPassword ? <Eye className='w-5' /> : <EyeOff className='w-5' />}
                     </button>
                   </div>
                 </div>
-                
-                <button type="submit" disabled={isLoading} className="group relative w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 px-8 rounded-xl hover:shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center">
+
+                <button type="submit" disabled={isLoading} className="group relative w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 px-8 rounded-xl hover:shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center mt-6">
                   <span className="relative z-10 flex items-center">{isLoading ? <><LoadingSpinner />Creating Account...</> : 'Create Free Account'}</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
                 </button>
               </form>
-              
-              <div className="text-center pt-4">
+
+              <div className="text-center pt-2">
                 <p className="text-sm text-gray-400">
                   Already have an account?{' '}
                   <Link to="/login" className="font-medium text-purple-400 hover:text-purple-300 transition">Sign in here</Link>
