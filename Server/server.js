@@ -27,6 +27,11 @@ app.use(bodyParser.json());
 const connectDB = require("./src/db");
 connectDB();
 
+// Welcome Mag
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+}) 
+
 // Routes
 app.use('/signup', signupRoutes);
 app.use('/login', loginRoutes);
