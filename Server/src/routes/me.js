@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const authenticateToken = require('../middleware/Auth');
+const authenticateToken = require('../middleware/auth');
 const User = require('../models/User');
 
 // Protected route - returns current user info
